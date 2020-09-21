@@ -1,0 +1,13 @@
+{
+  "name": "lyricsdo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/pesto-students/lyricsdo.git",
+  "license": "MIT",
+  "scripts": {
+    "develop": "serve ."
+  },
+  "devDependencies": {
+    "serve": "^11.3.2"
+  }
+}
