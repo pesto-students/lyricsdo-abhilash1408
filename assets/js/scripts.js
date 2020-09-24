@@ -1,7 +1,23 @@
+const lyricsBaseURL = 'https://api.lyrics.ovh/v1/';
+const suggestionsBaseURL = 'https://api.lyrics.ovh/suggest/';
+
+let searchForm;
+let searchSection;
+let lyricsSection;
+let searchList;
+let searchTitle;
+let lyricsErrorElement;
+let lyricsArtist;
+let lyricsAlbum;
+let lyricsTitle;
+let lyricsText;
+
+
 if(document.readyState === 'loading') {
+    // Add event listener for DOM Loading
     document.addEventListener('DOMContentLoaded', afterLoaded);
 } else {
-    //The DOMContentLoaded event has already fired. Just run the code.
+    //The DOMContentLoaded event is already triggered, so start executing the code.
     afterLoaded();
 }
 
@@ -26,30 +42,27 @@ function sendXMLHttpRequest (method, url) {
 }
 
 function generateListItemHtml(item){
-    return "<div class='listContainer'><div class='itemLeft'><img class='albumImage' src='" +
-    item.album.cover_medium+"'></div><div class='itemRight'><p><b>Track</b> : " + item.title +
-    "</p><p><b>Album</b> : " + item.album.title + "</p><p><b>Artist</b> : " + item.artist.name + "</p></div></div>"
+    const itemHtml = "<div class='listContainer'><div class='itemLeft'><img class='albumImage' src='" +
+    item.album.cover_medium + "' alt = '" + item.title + "'></div><div class='itemRight'><p><b>Track</b> : " + item.title +
+    "</p><p><b>Album</b> : " + item.album.title + "</p><p><b>Artist</b> : " + item.artist.name + "</p></div></div>";
+    return itemHtml;
 }
 
-function searchTracks(e) {
+function getSuggestions(e) {
+    // Interrupt the default form submit and add custom handling
     e.preventDefault();
     const formData = new FormData(e.target);
-    const url = 'https://api.lyrics.ovh/suggest/' + formData.get('searchTerm');
-    sendXMLHttpRequest('GET', url).then(response => {
-        const searchSection = document.getElementById('searchData');
+    const suggestionsUrl = suggestionsBaseURL + formData.get('searchTerm');
+    sendXMLHttpRequest('GET', suggestionsUrl).then(response => {
         searchSection.style.display = "block";
-        const lyricsSection = document.getElementById('lyricsSection');
         lyricsSection.style.display = "none";
-        const searchList = document.getElementById('searchList');
         searchList.innerHTML = "";
-        const searchTitle = document.getElementById('searchTitle');
         searchTitle.innerText = "Search Results for : " + formData.get('searchTerm');
-        console.log(response.data);
-        for (const i in response.data){
+        for (const itemData of response.data){
             let listItem = document.createElement("li");
-            listItem.innerHTML = generateListItemHtml(response.data[i]);
+            listItem.innerHTML = generateListItemHtml(itemData);
             listItem.onclick = function () {
-                getLyrics(response.data[i].artist.name, response.data[i].title, response.data[i].album.title);
+                getLyrics(itemData.artist.name, itemData.title, itemData.album.title);
             }
             searchList.appendChild(listItem);
         }
@@ -59,11 +72,8 @@ function searchTracks(e) {
 }
 
 function getLyrics(artist, title, album) {
-    const url = "https://api.lyrics.ovh/v1/" + artist + "/" + title;
-    sendXMLHttpRequest("GET", url).then(response => {
-        const lyricsErrorElement = document.getElementById('lyricsError');
-        const searchSection = document.getElementById('searchData');
-        const lyricsSection = document.getElementById('lyricsSection');
+    const lyricsUrl = lyricsBaseURL + artist + "/" + title;
+    sendXMLHttpRequest("GET", lyricsUrl).then(response => {
         if (!response.lyrics) {
             searchSection.style.display = "none";
             lyricsSection.style.display = "none";
@@ -73,26 +83,31 @@ function getLyrics(artist, title, album) {
             lyricsErrorElement.style.display = "none"
             searchSection.style.display = "none";
             lyricsSection.style.display = "block";
-            const lyricsData = document.getElementById('lyricsData');
-            lyricsData.innerHTML = response.lyrics;
-            const lyricsTitle = document.getElementById('lyricsTitle');
+            lyricsText.innerHTML = response.lyrics;
             lyricsTitle.innerHTML = "<b>Lyrics</b> : " + title;
-            const lyricsDetail = document.getElementById('lyricsDetail');
-            lyricsDetail.innerHTML = "<b>Artist</b> : " + artist + " , <b>Album</b> : " + album
-
-
+            lyricsArtist.innerHTML = "<b>Artist</b> : " + artist;
+            lyricsAlbum.innerHTML = "<b>Album</b> : " + album;
         }
-      
     }).catch(error => {
         console.log(error)
     })
 
 }
 
-// https://api.lyrics.ovh/v1/artist/title
+function loadDOMReferences() {
+    searchForm = document.getElementById("searchForm");
+    searchSection = document.getElementById('searchData');
+    lyricsSection = document.getElementById('lyricsSection');
+    searchList = document.getElementById('searchList');
+    searchTitle = document.getElementById('searchTitle');
+    lyricsErrorElement = document.getElementById('lyricsError');
+    lyricsArtist = document.getElementById('lyricsArtist');
+    lyricsAlbum = document.getElementById('lyricsAlbum');
+    lyricsTitle = document.getElementById('lyricsTitle');
+    lyricsText = document.getElementById('lyricsText');
+}
 
 function afterLoaded() {
-    let searchForm = document.getElementById("searchForm");
-    searchForm.addEventListener("submit", (e) => searchTracks(e));
-  
+    loadDOMReferences();
+    searchForm.addEventListener("submit", (e) => getSuggestions(e));
 }
