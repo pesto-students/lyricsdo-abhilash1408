@@ -32,12 +32,12 @@ if(document.readyState === 'loading') {
 }
 
 function sendXMLHttpRequest (method, url) {
+    // send XMLHttpRequest and return promise
     return new Promise((resolve, reject) => {
         var xhttp = new XMLHttpRequest();
         xhttp.open(method, url, true);
         xhttp.responseType = 'json'
         xhttp.onload = () => {
-            console.log('status : ', xhttp.status)
             if (xhttp.status >= 400) {
                 reject('Search Failed... Try again.');
             }
@@ -52,6 +52,7 @@ function sendXMLHttpRequest (method, url) {
 }
 
 function generateListItemHtml(item){
+    // generate search / recommendation list element
     const itemCard = document.createElement('div');
     itemCard.className = 'itemCard';
     const itemContainer = document.createElement('div');
@@ -81,6 +82,7 @@ function generateListItemHtml(item){
 }
 
 function setSearchError(error) {
+    // set search error
     container.style.display = 'block'
     searchError.style.display = 'block';
     searchSection.style.display = 'none';
@@ -89,12 +91,14 @@ function setSearchError(error) {
 }
 
 function setRecommendationsError(error) {
+    // set recommendations error
     recommendationsData.style.display = "none";
     recommendationsError.style.display = "block"
     recommendationsErrorMessage.innerText = error;
 }
 
 function getRecommendations(song) {
+    // get recommendations for start state
     handleLoader(LOADER_START);
     const suggestionsUrl = suggestionsBaseURL + song;
     sendXMLHttpRequest('GET', suggestionsUrl).then(response => {
@@ -146,12 +150,12 @@ function getSuggestions(e) {
 }
 
 function getLyrics(artist, title, album) {
+    // fetch lyrics from api
     handleLoader(LOADER_START);
     const lyricsUrl = lyricsBaseURL + artist + '/' + title;
     recommendations.style.display = "none";
     container.style.display = "none";
     sendXMLHttpRequest('GET', lyricsUrl).then(response => {
-        console.log(response);
         if (!response.lyrics) {
             searchSection.style.display = 'none';
             lyricsSection.style.display = 'none';
@@ -176,6 +180,7 @@ function getLyrics(artist, title, album) {
 }
 
 function loadDOMReferences() {
+    // function to load all DOM element references in global context
     searchForm = document.getElementById('searchForm');
     searchSection = document.getElementById('searchData');
     lyricsSection = document.getElementById('lyricsSection');
@@ -199,6 +204,7 @@ function loadDOMReferences() {
 }
 
 function handleLoader(command) {
+    // function to handle loader start/ stop
     if (command === LOADER_START) {
         loader.style.display = "block";
     } else {
@@ -207,6 +213,7 @@ function handleLoader(command) {
 }
 
 function afterLoaded() {
+    // executing after page is loaded
     loadDOMReferences();
     getRecommendations("smells like teen spirit");
     searchForm.addEventListener('submit', (e) => getSuggestions(e));
