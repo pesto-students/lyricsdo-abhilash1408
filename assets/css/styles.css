@@ -41,9 +41,99 @@ body,html{
 .hero-text button{
     padding: 8px;
 }
-  
 
-@media (min-width: 600px) {
+.container{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}
+
+#searchData{
+    display: none;
+}
+
+#lyricsSection{
+    display: none;
+    margin-top: 1rem;
+}
+
+#lyricsError{
+    display: none;
+    margin-top: 1rem;
+}
+
+#searchList{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#searchList li {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.125em;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.listContainer{
+    display: flex;
+}
+
+.itemLeft{
+    width: 40%;
+    margin: auto 0;
+}
+
+.itemRight{
+    margin-left: 5%;
+    width: 55%;
+}
+
+.albumImage{
+    max-width: 100%;
+}
+
+#reloadLyrics{
+    display: none;
+}
+
+#lyricsData{
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+@media screen and (min-width: 600px) and (orientation:landscape) {
+    /* Your CSS Here*/
+    .hero-image {
+        height: 60%;
+    }
+
+    .container{
+        width: 70%;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+    }
+
+    .itemLeft{
+        width: 30%;
+    }
+    
+    .itemRight{
+        width: 70%;
+    }
+
+}
+
+@media (min-width: 768px) {
     body {
         margin: 0px;
     }
@@ -58,7 +148,39 @@ body,html{
         border-radius: 5px;
     }
     
-    .hero-text button{
+    #submitButton{
         padding: 8px;
+    }
+
+    .container{
+        width: 60%;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+    }
+
+    .itemLeft{
+        width: 10%;
+    }
+    
+    .itemRight{
+        width: 90%;
+    }
+
+}
+
+@media only screen and (min-width: 992px) {
+    .hero-image {
+        height: 40%;
+    }
+
+    .container{
+        width: 50%;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+    }
+
+    #lyricsData{
+        font-size: 2em;
+        font-style: italic;
     }
 }

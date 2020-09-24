@@ -5,9 +5,12 @@
   "repository": "https://github.com/pesto-students/lyricsdo.git",
   "license": "MIT",
   "scripts": {
-    "develop": "serve ."
+    "develop": "serve .",
+    "test" : "jest"
   },
   "devDependencies": {
+    "eslint": "^7.9.0",
+    "jest": "^26.4.2",
     "serve": "^11.3.2"
   }
 }

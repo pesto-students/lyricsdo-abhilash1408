@@ -8,18 +8,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/css/styles.css">
         <script src="assets/js/scripts.js"></script>
-        
+        <script src="https://kit.fontawesome.com/eb0e6ad517.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="hero-image">
             <div class="hero-text">
                 <h1>Lyrics Finder</h1>
-                <p>Search for you favorite song lyrics</p>
-                <form>
+                <p>Search for your favorite song lyrics</p>
+                <form id="searchForm">
                     <input type="text" name="searchTerm">
-                    <button id="search">Search</button>
+                    <button type="submit" id="search">Search</button>
                 </form>
             </div>
         </div>
+        <div class="container">
+            <div id ="searchData">
+                <h2 id="searchTitle">Search Results for : </h2>
+                <ul id ="searchList">
+                </ul>
+            </div>
+            <div id = "lyricsError">
+                <p>Sorry for the inconvenience, Lyrics Not Found.</p>
+            </div>
+            <div id = "lyricsSection">
+                <h2 id="lyricsTitle">Lyrics : </h2>
+                <p id="lyricsDetail"><b>Artist : </b></p>
+                <pre id = "lyricsData">
+    
+                </pre>
+    
+            </div>
+        </div>
+       
     </body>
 </html>
