@@ -21,14 +21,28 @@
                 </form>
             </div>
         </div>
-        <div class="container">
+        <div id="recommendations">
+            <div id="recommendationsData">
+                <h2>Recommendations : </h2>
+                <ul id ="recommendationsList">
+                </ul>
+            </div>
+            <div id = "recommendationsError">
+                <p id = "recommendationsErrorMessage">No Search Results Found.</p>
+            </div>
+        </div>
+        <div id="loader"></div>
+        <div id="container">
             <div id ="searchData">
                 <h2 id="searchTitle">Search Results for : </h2>
                 <ul id ="searchList">
                 </ul>
             </div>
+            <div id = "searchError">
+                <p id = "searchErrorMessage">No Search Results Found.</p>
+            </div>
             <div id = "lyricsError">
-                <p>Sorry for the inconvenience, Lyrics Not Found.</p>
+                <p> Lyrics Not Found, Sorry for the inconvenience.</p>
             </div>
             <div id = "lyricsSection">
                 <h2 id="lyricsTitle">Lyrics : </h2>
